@@ -1,6 +1,6 @@
 # Core Concepts
 
-Imagine your app’s state is described as a plain object. For example, the state of a todo app might look like this:
+앱의 상태가 평범한 오브젝트로 되어 있다고 해봅시다. 예를 들어, todo 앱의 상태는 다음과 같을 것입니다.:
 
 ```js
 {
@@ -15,9 +15,9 @@ Imagine your app’s state is described as a plain object. For example, the stat
 }
 ```
 
-This object is like a “model” except that there are no setters. This is so that different parts of the code can’t change the state arbitrarily, causing hard-to-reproduce bugs.
+이 오브젝트는 setter가 없다는 것을 제외하고는 “model”과 같습니다. 상태(state)를 임의로 변경할수 없게 하여 버그를 방지하기 위함입니다.
 
-To change something in the state, you need to dispatch an action. An action is a plain JavaScript object (notice how we don’t introduce any magic?) that describes what happened. Here are a few example actions:
+상태(state)의 어떤 것을 바꾸기 위해서는, 액션(action)을 보내야(dispatch) 해야 합니다. 액션(action)은 무엇이 일어났는지 기술되어 있는 평범한 자바스크립트 객체(plain JavaScript object) 입니다. 액션의 몇가지 예는 다음과 같습니다.:
 
 ```js
 { type: 'ADD_TODO', text: 'Go to swimming pool' }
@@ -25,9 +25,9 @@ To change something in the state, you need to dispatch an action. An action is a
 { type: 'SET_VISIBILITY_FILTER', filter: 'SHOW_ALL' }
 ```
 
-Enforcing that every change is described as an action lets us have a clear understanding of what’s going on in the app. If something changed, we know why it changed. Actions are like breadcrumbs of what has happened.
-Finally, to tie state and actions together, we write a function called a reducer. Again, nothing magical about it—it’s just a function that takes state and action as arguments, and returns the next state of the app.
-It would be hard to write such a function for a big app, so we write smaller functions managing parts of the state:
+모든 변경을 액션으로 기술하면 앱에서 어떤 일이 일어나고 있는지 명확히 알 수 있습니다. 무언가가 변했다면, 왜 그것이 변했는지 알수 있습니다. 액션은 변경에 대한 빵부스러기(breadcrumbs)와 같습니다.
+마지막으로, 상태(state)와 액션(action)을 연결하기 위해, 리듀서(reducer)라는 함수를 작성합니다. 다시 말하지만 어떤 마술도 없습니다- 리듀서는 상태(state)와 액션(action)을 인자로 받고 앱의 다음 상태(state)를 돌려주는 단순한 함수 입니다. 
+거창한 앱을 위한 함수를 작성하는 것은 힘드니, 상태의 일부를 관리하는 작은 함수를 작성해 봅시다.:
 
 ```js
 function visibilityFilter(state = 'SHOW_ALL', action) {
@@ -55,7 +55,7 @@ function todos(state = [], action) {
 }
 ```
 
-And we write another reducer that manages the complete state of our app by calling those two reducers for the corresponding state keys:
+그리고 상태의 키에 해당하는 두개의 리듀서를 호출하여 앱의 상태 전체를 관리하는 다른 리듀서(reducer)를 작성해봅시다.:
 
 ```js
 function todoApp(state = {}, action) {
@@ -66,4 +66,4 @@ function todoApp(state = {}, action) {
 }
 ```
 
-This is basically the whole idea of Redux. Note that we haven’t used any Redux APIs. It comes with a few utilities to facilitate this pattern, but the main idea is that you describe how your state is updated over time in response to action objects, and 90% of the code you write is just plain JavaScript, with no use of Redux itself, its APIs, or any magic.
+이것이 리덕스(Redux)의 기본적인 전체 내용입니다.(This is basically the whole idea of Redux.) 아직 리덕스 API를 하나도 사용하지 않았다는 것을 잊지 마세요. 이 패턴을 위한 몇가지 방법이 제공되고 있지만, 중요한 것(main idea)은 액션 오브젝트의 응답에 맞추어 상태가 어떻게 갱신되는 것인지에 대해 작성한다는 것이고, 작성되는 코드의 90%는 라덕스 자체와 리덕스의 API나 어떠한 마법도 사용하지 않는 단순한 자바스크립트라는 것입니다.
